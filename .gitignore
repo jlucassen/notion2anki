@@ -2,3 +2,4 @@
 *.md
 *.txt
 !README.md
+.DS_Store
