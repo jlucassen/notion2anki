@@ -1,3 +1,11 @@
 # notion2anki
-Currently intended to support exactly one note format: 
-- Two-deep nested bullets, where the top level of bullets are cosmetic labels and each chunk of sub-bullets is a cloze card, but with the "cn::" bit removed so I can just put something {{in brackets}} in notion if I want it to be a cloze and not have to count clozes
+
+Now supports two formats!
+- One-deep bullets are turned into cards
+- Top level bullets are discarded if they have sub-bullets underneath and sub-bullets become bulleted notes
+
+All notes must be clozes, with {{just brackets}}, cloze numbering is filled in automatically
+
+The Notion page title is parsed as the deck title, and h3 headers are parsed as tags. All cards are tagged with "deck:tag" based on the most recent h3.
+
+When importing into anki choose pipe field separators, cloze notes, the right deck, and set the tag field to be tags.

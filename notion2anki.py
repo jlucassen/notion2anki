@@ -5,8 +5,8 @@ import re
 
 def number_clozes(block):
     i=1
-    while re.search("{{(?!c)", block):
-        block = re.sub("{{(?!(c[0-9]))", "{{c"+str(i)+"::", block, count=1)
+    while re.search("{{(?!(c\d))", block):
+        block = re.sub("{{(?!(c\d))", "{{c"+str(i)+"::", block, count=1)
         i += 1
     return block
 
