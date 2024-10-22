@@ -19,6 +19,8 @@ def number_clozes(card):
     while re.search("{{(?!(c\d))", card):
         card = re.sub("{{(?!(c\d))", "{{c"+str(i)+"::", card, count=1)
         i += 1
+    if i == 1:
+        raise ValueError(f"No cloze found in card:\n\n{card}")
     return card
 
 def main(path):
@@ -48,37 +50,8 @@ def main(path):
                             if len(card) == 0: continue # empty card
                             card.replace('\n', '<br>')
                             card = number_clozes(card)
-                            card = card + f"|{tag}"
+                            card = card + f"\t{tag}"
                             f.write(card+'\n')      
-
-
-
-
-
-
-
-
-
-            # tag_groups = contents.split("### ")
-            # for tag_group in tag_groups:
-            #     if not tag_group.startswith('- '): # no bullet at start, must be a tag
-            #         tag = tag_group.split("\n- ")[0]
-            #         bullets = tag_group.split('\n- ')[1:] # remove tag from bullets
-            #     else:
-            #         bullets = tag_group.split('\n- ')
-            #     for bullet in bullets:
-            #         if "    - " in bullet: # two deep detected, remove outer bullets and remove excess spaces from inner bullets
-            #             card = '<br>'.join([line for line in bullet.split('\n') if "    - " in line])
-            #             card = card.replace("    ", '')
-            #         else: # just one deep, remove bullets
-            #             card = bullet.replace('  - ', '')
-            #         if card.endswith("\n"): card = card[:-1] # remove ending \n
-            #         card = number_clozes(card)
-            #         if tag is not None:
-            #             card = card + f"|{title.lower().replace(' ','')}:{tag.lower().replace(' ', '')}"
-            #         f.write(card+'\n')                  
-
-                    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
