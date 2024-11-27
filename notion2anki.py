@@ -16,6 +16,8 @@ def split_by_header(contents, level):
     return out
 
 def number_clozes(card):
+    if len(re.findall(r'{{', card)) != len(re.findall(r'}}', card)):
+        raise ValueError(f"Mismatched brackets in card:\n\n{card}")
     i=1
     while re.search("{{(?!(c\d))", card):
         card = re.sub("{{(?!(c\d))", "{{c"+str(i)+"::", card, count=1)
@@ -26,7 +28,7 @@ def number_clozes(card):
 
 def check_card_template(card):
     card = card.lower()
-    if re.search(r"to fix {{.*?, {{", card):
+    if re.search(r"to fix {{.*?{{", card):
         return "to_fix_X_Y"
     if re.search(r"the (argument|args|syntax) for .*? (is|are) {{", card):
         return "args/syntax"
@@ -66,12 +68,10 @@ def main(path):
                             card = card.strip()
                             if len(card) == 0: continue # empty card
                             card_templates[check_card_template(card)] += 1
-                            card = card.replace('\n', '<br>')
+                            card = card.replace(r'\n', '<br>')
                             card = number_clozes(card)
                             card = card + f"\t{tag}"
                             f.write(card+'\n')   
-                            if '<br>' in card:
-                                print(f"Card with <br> found: {card}")
         print(f"Finished {path}. Card templates found:")
         for p in sorted(card_templates.items(), key=lambda x:x[1], reverse=True):
             print(f"{p[0]}: {p[1]}")
