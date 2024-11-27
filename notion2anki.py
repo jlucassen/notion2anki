@@ -69,6 +69,7 @@ def main(path):
                             if len(card) == 0: continue # empty card
                             card_templates[check_card_template(card)] += 1
                             card = card.replace(r'\n', '<br>')
+                            card = card.replace('\n', '<br>')
                             card = number_clozes(card)
                             card = card + f"\t{tag}"
                             f.write(card+'\n')   
